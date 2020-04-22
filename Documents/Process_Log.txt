@@ -1,0 +1,22 @@
+Process Log for Pittsburgh COVID-19 Bus Schedule Analysis
+
+Service Density Maps
+1. Recorded how many round trips each bus line does on a weekday before schedule changes in a .csv
+  a. Counted number of complete rows on the bus route's timetable gathered from PAAC's website
+  b. For rows that did not go to every stop, if they stopped at 50%+ then I recorded a 1; if <50%, I recorded a .5
+2. Recorded how many round trips each bus does on a weekday under the modified schedule using the same method as another column in the same csv
+3. Downloaded PAAC transit line shape files from WPRDC
+4. Downloaded PAAC transit stops from WPRDC
+5. Exported stops table with only the stop ID, inbound/outbound/both attribute, and the routes that service that stop to csv
+6. In a Python script I added the number of weekday stops pre-COVID for each line associated with a given stop into a new attribute "orig_bus_count". If a stop is both inbound and outbound, the number returned in step 1 was doubled.
+7. Repeated the above step but instead for weekday scheduled stops post-COVID
+8. Output the new file with stopID, sum of regular daily buses, and sum of adjusted daily  buses to a .csv which I then imported to ArcGIS
+9. Joined the new data to the stops feature class and exported a new PAAC_Stops_Daily_Buses point feature
+10. Split the PAAC_Stops_Daily_Buses feature into 1000 stops, as the network analysis tool can only use a max of 1000 facility locations
+11. Created 5 and 10 minute walking service areas for all the bus stops in batches
+12. Output the polygon features of the services areas and deleted the rest of the service areas as I made them
+13. Merged the polygon features from the seven service areas to create a single feature of 5- and 10-minute walking distance service areas to bus stops
+14. Constructed a new polygon that encompasses all of Allegheny County, then used the Symmetrical Difference tool to cut out the 10-min walking distance polygon
+15. Built a kernel density layer using the PAAC_Stops_Daily_Buses orig_bus_count as the population measure, showing bus density for the county under normal conditions. I used a cell size of 100 and a search radius of 1240
+16. Built a second kernel density layer instead using adj_bus_count as the population measure, showing bus density for the county user the adjusted schedules for COVID-19
+17. Used the raster calculator to find the differnce between the two kernel density layers, which shows the change in bus density for the county due to coronavirus schedule changes 
