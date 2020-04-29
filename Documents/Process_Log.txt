@@ -39,3 +39,12 @@ Worker Density Layers
 15. For each, created a new field "<sector>_p". Calculated by <sector>Total / population
 16. For each, created a new field "Relative Abundance Index". Calculated this field by <sector>_p * <sector>_density
 17. Changed symbology for these two new features to graduated colors, nautral breaks on the relative abundance index. This shows where there are a high density of certain workers in a block group AND they are overrepresented
+
+Use:Bus Change Ratio
+1. Imported covid-era bus usage data provided by the Port Authority into a Python script that aggregates average daily usage based on the stop.
+2. Imported that file into ArcGIS
+3. Copied the stops data from PAAC that already contains 2019 stop usage, pre-COVID daily buses, and post-COVID daily buses
+4. Created a new field, "Perc_bus_change", calculated as (daily_bus_post - daily_bus_pre) / daily_bus_pre
+5. Calculated a new field, "Perc_use_change", calculated as (daily_use_post - daily_use_pre) / daily_use_pre
+6. Calculated a new field, "Use:Bus_change_ratio", calculated as (1 + Perc_use_change) / (1 + Perc_bus_change)
+7.  Built a kernel density layer using the Use_Bus_change_ratio as the population measure. I used a cell size of 100 and a search radius of 1240
