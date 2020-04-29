@@ -19,4 +19,23 @@ Service Density Maps
 14. Constructed a new polygon that encompasses all of Allegheny County, then used the Symmetrical Difference tool to cut out the 10-min walking distance polygon
 15. Built a kernel density layer using the PAAC_Stops_Daily_Buses orig_bus_count as the population measure, showing bus density for the county under normal conditions. I used a cell size of 100 and a search radius of 1240
 16. Built a second kernel density layer instead using adj_bus_count as the population measure, showing bus density for the county user the adjusted schedules for COVID-19
-17. Used the raster calculator to find the differnce between the two kernel density layers, which shows the change in bus density for the county due to coronavirus schedule changes 
+17. Used the raster calculator to find the difference between the two kernel density layers, which shows the change in bus density for the county due to coronavirus schedule changes
+
+Worker Density Layers
+1. Downloaded block-group-level census data regarding worker occupations, populations, and poverty status from data.census.gov
+2. Downloaded TIGER shapefiles for census block groups from the Census bureau
+3. Imported block group shapefiles into ArcGIS
+4. Imported census data tables into ArcGIS
+5. Hid all features in the large occupation table except men/women involved in service work (includes healthcare support, food service, fire/police, garbage collection, etc.) and healthcare
+6. Joined occupation table to block group shapefiles
+7. Joined population table to block group shapefiles
+8. Exported joined shapefile to AC_BG polygon feature
+9. created a new field "Area (sq miles)". Used calculate geometry tool to generate square miles areas for each block group.
+10. Made two copies of this feature, "Service_Worker_Density" and "Healthcare_Worker_Density"
+11. For each, created a new field entitled <sector>Total and calculated that field based on the sum of the relevant male/female counts
+12. For each, created a new field <sector>_density. Calculated this field with '<sector>Total / Area (sq miles)'
+13. Changed the symbologies of these features to graduated colors based on natural breaks to show what block groups exhibit high concentrations of service and healthcare workers respectively
+14. Created a copy of each of these two newly symbolized features, "Healthcare_Proportion" and "Service_Proportion"
+15. For each, created a new field "<sector>_p". Calculated by <sector>Total / population
+16. For each, created a new field "Relative Abundance Index". Calculated this field by <sector>_p * <sector>_density
+17. Changed symbology for these two new features to graduated colors, nautral breaks on the relative abundance index. This shows where there are a high density of certain workers in a block group AND they are overrepresented
