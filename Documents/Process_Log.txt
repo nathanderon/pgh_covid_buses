@@ -1,4 +1,4 @@
-Process Log for Pittsburgh COVID-19 Bus Schedule Analysis
+ Process Log for Pittsburgh COVID-19 Bus Schedule Analysis
 
 Service Density Maps
 1. Recorded how many round trips each bus line does on a weekday before schedule changes in a .csv
@@ -21,7 +21,7 @@ Service Density Maps
 16. Built a second kernel density layer instead using adj_bus_count as the population measure, showing bus density for the county user the adjusted schedules for COVID-19
 17. Used the raster calculator to find the difference between the two kernel density layers, which shows the change in bus density for the county due to coronavirus schedule changes
 
-Worker Density Layers
+Worker Density Layers (Did not use in final analysis)
 1. Downloaded block-group-level census data regarding worker occupations, populations, and poverty status from data.census.gov
 2. Downloaded TIGER shapefiles for census block groups from the Census bureau
 3. Imported block group shapefiles into ArcGIS
@@ -40,6 +40,10 @@ Worker Density Layers
 16. For each, created a new field "Relative Abundance Index". Calculated this field by <sector>_p * <sector>_density
 17. Changed symbology for these two new features to graduated colors, nautral breaks on the relative abundance index. This shows where there are a high density of certain workers in a block group AND they are overrepresented
 
+Essential Worker Hot and Cold Spots
+1. Use the Optimized Hot Spot Analysis tool to build a healthcare worker hot spot visualization based on the proportion of healthcare workers in a given census block group.
+2. Repeated step 1 with service workers.
+
 Use:Bus Change Ratio
 1. Imported covid-era bus usage data provided by the Port Authority into a Python script that aggregates average daily usage based on the stop.
 2. Imported that file into ArcGIS
@@ -47,4 +51,12 @@ Use:Bus Change Ratio
 4. Created a new field, "Perc_bus_change", calculated as (daily_bus_post - daily_bus_pre) / daily_bus_pre
 5. Calculated a new field, "Perc_use_change", calculated as (daily_use_post - daily_use_pre) / daily_use_pre
 6. Calculated a new field, "Use:Bus_change_ratio", calculated as (1 + Perc_use_change) / (1 + Perc_bus_change)
-7.  Built a kernel density layer using the Use_Bus_change_ratio as the population measure. I used a cell size of 100 and a search radius of 1240
+7. Built a kernel density layer using the Use_Bus_change_ratio as the population measure. I used a cell size of 100 and a search radius of 1240
+8. Built a point layer, filtering out any stops where the average weekday ridership after the order was less than 50 passengers. Symbolized with a large red dot to highlight values above 1.0, yellow between 0.5 and 1 and green less than 0.5
+
+Story Map
+1. Deleted all layers not to be used in the final analysis.
+2. Uploaded map into ArcGIS Online.
+3. Configured pop-ups for all layers that would appear in the analysis by changing order of information, information presented, and aliases for readability and clarity.
+4. Activated the pertinent layers for each map while building the story map, ensuring to include the legend as well.
+5. Published map online at https://arcg.is/1q1XC4.
